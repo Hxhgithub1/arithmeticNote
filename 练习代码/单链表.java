@@ -1,5 +1,20 @@
 
+class ListNode {
+    int val;
+    ListNode next;
 
+    ListNode() {
+    }
+
+    ListNode(int val) {
+        this.val = val;
+    }
+
+    ListNode(int val, ListNode next) {
+        this.val = val;
+        this.next = next;
+    }
+}
 public class linknode {
     public static class Node {
         private int data;
@@ -13,6 +28,41 @@ public class linknode {
         public int getData() {
             return data;
         }
+    }
+    
+    //回文字符串,使用快慢指针算出中间节点的同时反转前半部分链表，然后对比两段链表对应位置的值（此方法会修改链表且不会复原链表）
+     public static boolean isPalindrome2(ListNode head) {
+        if(head==null||head.next==null)return true;
+        ListNode fast = head;
+        ListNode slow = head;//等于curr
+        ListNode pre = null;
+        //用快慢指针获取中间点坐标，同时反转前半部分链表
+        while(fast!=null&&fast.next!=null){
+            fast = fast.next.next;
+            ListNode next = slow.next;
+            slow.next = pre;
+            pre = slow;
+            slow = next;
+        }
+        //为奇数的时候要跳过中间节点进行对比
+        if (fast!=null) slow=slow.next;
+        while(pre!=null){
+            //证明是偶数的
+            if(fast==null){
+                if(pre.val!=slow.val){
+                    return false;
+                }
+                pre=pre.next;
+                slow = slow.next;
+            }else{
+                if(pre.val!= slow.val){
+                    return false;
+                }
+                pre = pre.next;
+                slow = slow.next;
+            }
+        }
+        return true;
     }
 
     //反转链表
